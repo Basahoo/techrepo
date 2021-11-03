@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewData["Title"] = "DashBoard";
+}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+<script>
+    $(function () {
+        $(".divChildSections").tooltip();
+    });
+</script>   
+
+<h1>WelCome to OneCloud Transformer</h1>
+<p class="headerMessage">( One click solution for Cloud Economics, Azure DevOps and Cloud AI )</p>
+
+<div class="divMainSection">
+    <div class="divAzureDevOps divChildSections" title="One Click Agile DevOps model delivery including development, security & Deployment "><span> Azure DevOps </span></div>
+    <div class="divCloudEconomics divChildSections" title="One click pre-estimate of Cloud Resource cost and IT need including Capex & Opex."><span> Cloud Economics </span></div>
+    <div class="divCloudAI divChildSections" title="One click AI based resilient Application deployment with high availability & performance "> <span> Cloud AI </span></div>
+</div>
