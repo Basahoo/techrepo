@@ -334,14 +334,21 @@
                     // If there is only row then no need show the delete button.
                     if ($(".divWorkItemRow").length == 1) {
                         // Hide the Delete button for all.
-                        $(".divWorkItemRow .delworkitemrow").hide()
+                        $(".divWorkItemRow .delworkitemrow").hide();
+                    }
+                    else {
+                        // Show the Delete button for last item
+                        $(".divWorkItemRow:last .delworkitemrow").show();
                     }
                 });
 
                 // If there is only one row then no need show the delete button.
                 if ($(".divWorkItemRow").length > 1) {
-                    // Show the Delete button for all.
-                    $(".divWorkItemRow .delworkitemrow").show()
+                    // Hide the Delete button for all.
+                    $(".divWorkItemRow .delworkitemrow").hide();
+
+                     // Show the Delete button for last item
+                    $(".divWorkItemRow:last .delworkitemrow").show();
                 }
             }
         });
