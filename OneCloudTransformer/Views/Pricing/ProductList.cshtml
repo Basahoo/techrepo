@@ -92,14 +92,17 @@
         // Product Search Event
         $(".product-search").keyup(function (e) {
             var searchText = $(this).val().trim().toLowerCase();
-          
-            if (searchText.length > 0) {
-                var searchProducts = $.grep(allProducts, function (n, i) { return n.productName.toLowerCase().indexOf(searchText.toLowerCase()) >= 0; });
-                if (searchProducts.length > 0) {
 
-                    // Show Only filtered Products
-                    showFilteredData(searchProducts);
-                }
+            // First Hide all
+            $('.divProductItems').hide();
+
+            if (searchText.length > 0) {
+
+                $('.divProductItems').each(function () {
+                    if ($(this).find("div.imageDescription").html().trim().toLowerCase().indexOf(searchText) >=0) {
+                        $(this).show();
+                    }
+                });
             }
             else {
                 // Show All Product
@@ -107,23 +110,6 @@
             }
            
         });
-
-        //Dispaly Filterd SearchProducts
-        function showFilteredData(filteredData) {
-
-            // First Hide all
-            $('.divProductItems').hide();
-
-           // Show Filtered Item Only
-            $.each(filteredData, function (i, n) {
-
-                $('.divProductItems').each(function () {
-                    if ($(this).find("div.imageDescription").html().trim() == n.productName) {
-                        $(this).show();
-                    }
-                });
-            });
-        }
 
         function registerspinbuttonEvent() {
             $(".spinbutton").change(function (e) {
@@ -137,18 +123,12 @@
                 calucalteTotalCost();
             });
         }
-
-        // RegisterSpinButtonEvent
-       // registerspinbuttonEvent();
-
         calucalteTotalCost();
         ProjectList();
     });
 </script>
 
 <div class="divpagemaincontent inline-flex">
-
-  
 
     @*Load Product List*@
 
