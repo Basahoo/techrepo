@@ -59,7 +59,7 @@ namespace OneCloudTransformer
                 endpoints.MapControllerRoute(
                      name: "default",
                      pattern: "{controller}/{action}/{id?}",
-                     defaults: new { controller = "DevOpsBoard", action = "DevOpsBoard" });
+                     defaults: new { controller = "Pricing", action = "ProductList" });
             });
         }
     }

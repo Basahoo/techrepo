@@ -1,0 +1,16 @@
+[
+  {
+    "ProductName": "Virtual Machine",
+    "ImageSrc": "/AzureIcons/VM-icon.png",
+    "Description": "Provision Windows and Linux virtual machines in seconds",
+    "Details": "1 D2 v3 (2 vCPUs, 8 GB RAM) x 730 Hours (Pay as you go), Windows (License included), OS Only; 0 managed disks – S4, 100 transaction units; Inter Region transfer type, 5 GB outbound data transfer from West US to East Asia",
+    "UnitPrice": "152.57"
+  },
+  {
+    "ProductName": "App Service",
+    "ImageSrc": "/AzureIcons/App-Service-icon.png",
+    "Description": "Provision Windows and Linux virtual machines in seconds",
+    "Details": "Basic Tier; 1 B1 (1 Core(s), 1.75 GB RAM, 10 GB Storage) x 730 Hours; Windows OS",
+    "UnitPrice": "54.75"
+  }
+]

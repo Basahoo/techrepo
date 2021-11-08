@@ -258,6 +258,22 @@ namespace OneCloudTransformer
             return repo;
         }
 
+        [HttpGet]
+        [Route("api/v1/GetProductList")]
+        public List<AzureProduct> GetProjectList()
+        {
+            List<AzureProduct> productLit = new List<AzureProduct>();
+
+            // Read From JSON File/ 
+
+            string fullapath = @"\wwwroot\JSONData\Azureproducts.json";
+            var jsonResult = System.IO.File.ReadAllText(Directory.GetCurrentDirectory() + fullapath);
+
+            // Deserialize the Response JSON data to ProjectList.
+            productLit = JsonConvert.DeserializeObject<List<AzureProduct>>(jsonResult);
+            return productLit;
+        }
+
         #endregion
 
         #region GetTestMethod
