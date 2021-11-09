@@ -13,6 +13,10 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.VisualStudio.Services.WebApi;
+using Microsoft.VisualStudio.Services.Common;
+using Microsoft.TeamFoundation.WorkItemTracking.WebApi;
+using Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models;
 
 namespace OneCloudTransformer
 {
@@ -234,7 +238,7 @@ namespace OneCloudTransformer
         [Route("api/v1/GetWorkItemList")]
         public List<WorkItemValue> GetWorkItemList(string org, string pat1, string projectName)
         {
-            List<WorkItemValue> workItemLit = GetWorkItemList(org, pat1).value;
+            List<WorkItemValue> workItemLit = GetWorkItemListFromAPI2(org, pat1);
             return workItemLit.Where(x => x.Fields.TeamProject == projectName).ToList();
         }
 
@@ -246,13 +250,13 @@ namespace OneCloudTransformer
 
             AzRepository repo = new AzRepository();
             repo.azprojectList = new List<AzProject>();
-            List<WorkItemValue> workItemLit = GetWorkItemList(org, pat1).value;
+           // List<WorkItemValue> workItemLit = GetWorkItemListFromAPI2(org, pat1);
 
             list.value.ForEach(d => {
                 AzProject pro = new AzProject() { id = d.id, name = d.name, url = d.url };
                 pro.azPipelineList = GetPipelineList(org, pat1, d.id).value;
                 pro.azPipelineList = pro.azPipelineList ?? new List<Value>();
-                pro.WorkItemList = workItemLit.Where(x => x.Fields.TeamProject == d.name).ToList(); 
+              //  pro.WorkItemList = workItemLit.Where(x => x.Fields.TeamProject == d.name).ToList(); 
                 repo.azprojectList.Add(pro);
             });
             return repo;
@@ -576,47 +580,49 @@ namespace OneCloudTransformer
             return repoList;
         }
 
-        public WorkItemResponse GetWorkItemList(string org, string pat1)
+        /// <summary>
+        /// Get All work Item for Organisation
+        /// </summary>
+        /// <param name="org"></param>
+        /// <param name="pat1"></param>
+        /// <returns></returns>
+        public List<WorkItemValue> GetWorkItemListFromAPI2(string org, string pat1)
         {
             string result = string.Empty;
             WorkItemResponse repoList = new WorkItemResponse();
 
             string organization = org;
             string pat = pat1;
-            string ids = "6,7,8";
 
-            string url = $"https://dev.azure.com/{organization}/_apis/wit/workitems?ids={ids}&api-version=6.0";
+            Uri orgUrl = new Uri($"https://dev.azure.com/{organization}/");
+            string personalAccessToken = $"{pat}";
+            VssConnection connection = new VssConnection(orgUrl, new VssBasicCredential(string.Empty, personalAccessToken));
 
-            var cokiestoUse = new CookieContainer();
-            using (var handler = new HttpClientHandler { CookieContainer = cokiestoUse, Credentials = new NetworkCredential("", "") })
-            using (var client = new HttpClient(handler))
+            WorkItemTrackingHttpClient witClient = connection.GetClient<WorkItemTrackingHttpClient>();
+
+            Wiql wiq = new Wiql();
+            wiq.Query = "Select [System.Id], [System.Title], [System.State] From WorkItems Where [System.WorkItemType] = 'Task' AND [State] <> 'Closed' AND [State] <> 'Removed' order by [Microsoft.VSTS.Common.Priority] asc, [System.CreatedDate] desc";
+          
+            WorkItemQueryResult tasks =  witClient.QueryByWiqlAsync(wiq).Result;
+            IEnumerable<WorkItemReference> tasksRefs;
+            tasksRefs = tasks.WorkItems.OrderBy(x => x.Id);
+
+            List<Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models.WorkItem> tasksList = witClient.GetWorkItemsAsync(tasksRefs.Select(wir => wir.Id)).Result;
+
+            List<WorkItemValue> workItemFinalList = new List<WorkItemValue>();
+
+            foreach (var task in tasksList)
             {
-                //client.BaseAddress = new Uri();
-                client.BaseAddress = new Uri(url);
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Add("Cookie", "VstsSession=%7B%22PersistentSessionId%22%3A%224890eb27-901e-44bc-8b9f-17ca8c8cf349%22%2C%22PendingAuthenticationSessionId%22%3A%2200000000-0000-0000-0000-000000000000%22%2C%22CurrentAuthenticationSessionId%22%3A%2200000000-0000-0000-0000-000000000000%22%2C%22SignInState%22%3A%7B%7D%7D");
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(
-                   System.Text.ASCIIEncoding.ASCII.GetBytes(string.Format("{0}:{1}", "", pat))));
-
-                using (var response = client.GetAsync(client.BaseAddress).Result)
-                {
-                    if (response.StatusCode == HttpStatusCode.OK)
-                    {
-                        // Get response data 
-                        result = response.Content.ReadAsStringAsync().Result;
-
-                        // Deserialize the Response JSON data to ProjectList.
-                        repoList = JsonConvert.DeserializeObject<WorkItemResponse>(result);
-                    }
-                    else if (response.StatusCode == HttpStatusCode.BadRequest)
-                    {
-                        // Log for the bad request.
-                        var message = response.Content.ReadAsStringAsync().Result;
-                        // Log Message
-                    }
-                }
+                workItemFinalList.Add(new WorkItemValue() { Id=task.Id.Value, Url = task.Url, Fields=new WorkItemFields() {
+                    Title= task.Fields["System.Title"].ToString(),  
+                    Reason = task.Fields["System.Reason"].ToString(),
+                    State = task.Fields["System.State"].ToString(),
+                    TeamProject = task.Fields["System.TeamProject"].ToString(),
+                    WorkItemType = task.Fields["System.WorkItemType"].ToString()
+                } });
             }
-            return repoList;
+
+            return workItemFinalList;
         }
 
         #endregion
