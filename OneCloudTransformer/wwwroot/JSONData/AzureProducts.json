@@ -12,5 +12,12 @@
     "Description": "Provision Windows and Linux virtual machines in seconds",
     "Details": "Basic Tier; 1 B1 (1 Core(s), 1.75 GB RAM, 10 GB Storage) x 730 Hours; Windows OS",
     "UnitPrice": "54.75"
+  },
+  {
+    "ProductName": "Active Directory",
+    "ImageSrc": "/AzureIcons/active-directory.png",
+    "Description": "Includes 500K Directory Objects, SSO for SaaS Apps 10 Apps/User,",
+    "Details": "1 users Premium P1, 1 users Premium P2, Enterprise tier, 730 directory objects, User forest hours {5, Resource forest hours {7}.",
+    "UnitPrice": "23.36"
   }
 ]
