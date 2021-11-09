@@ -86,18 +86,23 @@ body {
     border: 1px solid blue;
     width: 200px;
     color: white;
-    background-color: blue;
+    background-color: rgba(0,120,212,1);
     text-align: center;
     margin-right: 100px;
     margin-top: 10px;
     padding-top: 20px;
 }
 
+    .divChildSections > span >a {
+        font-size: larger;
+        font-weight: bold;
+        color:white;
+    }
     .divChildSections > span {
         font-size: larger;
         font-weight: bold;
+        color: white;
     }
-
 
 .rowdiv {
     margin-top: 10px;
