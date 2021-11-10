@@ -19,5 +19,12 @@
     "Description": "Includes 500K Directory Objects, SSO for SaaS Apps 10 Apps/User,",
     "Details": "1 users Premium P1, 1 users Premium P2, Enterprise tier, 730 directory objects, User forest hours {5, Resource forest hours {7}.",
     "UnitPrice": "23.36"
+  },
+  {
+    "ProductName": "Azure SQL Database",
+    "ImageSrc": "/AzureIcons/sql-database-generic.png",
+    "Description": "Includes 500K Directory Objects, SSO for SaaS Apps 10 Apps/User,",
+    "Details": "Single Database, vCore, RA-GRS Backup Storage, General Purpose, Provisioned, Standard-series (Gen 5), Local Redundancy, 1 - 8 vCore instance(s) x 730 Hours, 32 GB Storage, 0 GB Backup Storage",
+    "UnitPrice": "23.36"
   }
 ]
