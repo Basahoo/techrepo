@@ -39,6 +39,12 @@
                         registerTabEvents();
                         ActiveSelectedTab(source);
                         createEstimateSummary();
+                        if (source == "AWS") {
+                            highlightTabSelect(1);
+                        }
+                        else {
+                            highlightTabSelect(0);
+                        }
                     }
                 },
                 error: function (xhr, status, error) {
@@ -149,6 +155,22 @@
             $(".awsProductList").hide();
         }
 
+        function highlightTabSelect(surce) {
+            //RemoveHighlight Class for all
+            $(".btnawsTab").removeClass("selectedTopMenu");
+            $(".btnAzureTab").removeClass("selectedTopMenu");
+
+            if (surce == 0) {
+                // Hihlight self
+                $(".btnAzureTab").addClass("selectedTopMenu");
+            }
+            if (surce ==1) {
+
+                // Hihlight self
+                $(".btnawsTab").addClass("selectedTopMenu");
+            }
+        }
+
         function registerTabEvents(){
             // Click on AzureTab
             $(".btnAzureTab").click(function (e) {
@@ -157,6 +179,8 @@
 
                 // Display AzreTab
                 $(".azureProductList").show();
+                highlightTabSelect(0);
+
             });
 
             // Click on AWS
@@ -166,6 +190,8 @@
 
                 // Show AWS
                 $(".awsProductList").show();
+                highlightTabSelect(1);
+               
             });
         }
 
@@ -186,6 +212,7 @@
                    
                     $(".awsProductList").show();
                     $(".btnawsTab").show();
+                    highlightTabSelect(1);
                 }
             }
            
@@ -208,6 +235,7 @@
 
                     $(".azureProductList").show();
                     $(".btnAzureTab").show();
+                    highlightTabSelect(0);
                 }
             }
            
@@ -285,6 +313,15 @@
 
         }
 
+        //$(".createaddWorkItemIT").click(function (e) {
+
+        //    // Create WorkItem For IT TEAM 
+
+        //    // Needs to know for which project 
+
+
+        //})l
+
         calucalteTotalCost();
         hideDivTab();
         hideAllProductDataDiv();
@@ -347,7 +384,7 @@
                 </div>
             </div>
             <div class="text-right">
-                <input type="button" id="btnaddWorkItemIT" class="bluebutton addWorkItemIT" value="Create WorkItems" />
+                <input type="button" id="btnaddWorkItemIT" class="bluebutton selectedTopMenu createaddWorkItemIT" value="Create WorkItems" />
             </div>
         </div>
 </div>
@@ -385,7 +422,7 @@
 
         </div>
         <div class="text-right">
-            <input type="button" id="btnaddWorkItemIT" class="bluebutton addWorkItemIT" value="Create WorkItems" />
+            <input type="button" id="btnaddWorkItemIT" class="bluebutton selectedTopMenu addWorkItemIT" value="Create WorkItems" />
         </div>
     </div>
 </div>

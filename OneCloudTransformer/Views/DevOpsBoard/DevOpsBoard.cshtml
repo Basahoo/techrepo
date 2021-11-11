@@ -128,7 +128,7 @@
                             var datarow = "<tr>" +
                                 "<td> <span class='" + spanshow +
                                 " span-select'>" +
-                                "<input type='button' class='btnselectproject  btn-blue' data=" + result.azprojectList[i].id + " value='select' /></span></td > " +
+                                "<input type='button' class='btnselectproject  btn-blue' data=" + result.azprojectList[i].id + " value='Select' /></span></td > " +
                                 "<td> " + result.azprojectList[i].name + "</td>" +
                                 "<td> " + result.azprojectList[i].url + "</td>" +
                                 "<td> " + result.azprojectList[i].azPipelineList.length + "</td>" +
@@ -239,6 +239,17 @@
             checkprojectoption();
             checkProcessButton();
         });
+
+
+        //function highlightrowOnsELECT() {
+        //     // Add row highighted on Select
+        //     // Remove selected hightlight from all rows
+        //    // Add selected hightlight for self
+        //    $(".btnselectproject").closest("tr").removeClass('selectedTopMenu');
+           
+        //}
+
+
         function registerbuttonEvent() {
             $(".btnselectproject").click(function () {
                 // alert($(this).attr("data"));
@@ -248,6 +259,13 @@
                 GetWorkItemList(projectName);
                 
                 checkProcessButton();
+
+                // Add row highighted on Select
+                // Remove selected hightlight from all rows
+                // Add selected hightlight for self
+                $(".btnselectproject").closest("tr").removeClass('selectedTopMenu');
+                $(this).closest("tr").addClass('selectedTopMenu');
+
             });
         }
 
