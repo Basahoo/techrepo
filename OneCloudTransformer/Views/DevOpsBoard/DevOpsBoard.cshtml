@@ -18,6 +18,20 @@
         $(".divAzureDevOps").addClass("selectedTopMenu");
         $(".divAzureDevOps span a").addClass("selectedTopMenu");
 
+        // Check if use already loggedin
+        if (sessionStorage.getItem("devOpsLogin") == "True") {
+
+            // Hide Login
+            $(".connect").hide();
+            $(".loadingdiv").show();
+            // Load ProductList
+            ProjectList();
+        }
+        else {
+            $(".connect").show();
+        }
+
+        $(".loadingdiv").hide();
         $("#divProjectList").hide();
         $(".process").hide();
         $(".divoption").hide();
@@ -92,7 +106,9 @@
                 }
             });
         }
+
         function ProjectList() {
+            $(".loadingdiv").show();
             var org = $("#txtOrg").val();
             var pat = $("#txtpat").val();
             var url = "https://localhost:44362/api/v1/GetProjectList?org=" + org + "&pat1=" + pat;
@@ -101,6 +117,7 @@
                 type: "get",
                 contentType: "application/json",
                 success: function (result, status, xhr) {
+                    $(".loadingdiv").hide();
                     //$(".divtoken").html(result);
                     if (result.azprojectList.length >= 0) {
 
@@ -210,6 +227,7 @@
                 }
             });
         }
+
         function checkprojectoption() {
             var optionval = $('input[name="projectoption"]:checked').val();
             if (optionval == "0") {
@@ -241,15 +259,6 @@
         });
 
 
-        //function highlightrowOnsELECT() {
-        //     // Add row highighted on Select
-        //     // Remove selected hightlight from all rows
-        //    // Add selected hightlight for self
-        //    $(".btnselectproject").closest("tr").removeClass('selectedTopMenu');
-           
-        //}
-
-
         function registerbuttonEvent() {
             $(".btnselectproject").click(function () {
                 // alert($(this).attr("data"));
@@ -272,6 +281,9 @@
         $(".getproject").click(function (e) {
             //GetToken();
             ProjectList();
+
+            //Put into Sesion Storage
+            sessionStorage.setItem("devOpsLogin", "True");
         });
 
         $(".showList").click(function (e) {
@@ -416,6 +428,9 @@
         </div>
     </div>
 
+    <div class="loadingdiv text-center">
+        <img src="~/AzureIcons/loader_spin.gif" style="width:154px; height:86px" />
+    </div>
     @*Load Project List*@
     <div class="projectdivsection divprojectcreationoptionmain">
         <div class="row-header"> Create DevOps pipeline </div>
@@ -506,7 +521,6 @@
             <div class="projectcreationmessage"></div>
         </div>
         @*End Load Project List*@
-
 
         <br />
         <div class="deletedv" hidden>
