@@ -85,23 +85,28 @@ body {
     height: 70px;
     border: 1px solid blue;
     width: 200px;
-    color: white;
-    background-color: rgba(0,120,212,1);
+   /* color: white;*/
+    /*background-color: rgba(0,120,212,1);*/
     text-align: center;
     margin-right: 100px;
     margin-top: 10px;
     padding-top: 20px;
 }
+.selectedTopMenu {
+        color: white;
+    background-color: rgba(0,120,212,1);
+}
+
 
     .divChildSections > span >a {
         font-size: larger;
         font-weight: bold;
-        color:white;
+       /* color:white;*/
     }
     .divChildSections > span {
         font-size: larger;
         font-weight: bold;
-        color: white;
+        /*color: white;*/
     }
 
 .rowdiv {
@@ -261,11 +266,11 @@ body {
     width:110%;
 }
 .divestimate {
-    width: 25%;
+    width: 40%;
     /*margin-top: 35px;*/
 }
 .ProductList {
-    width: 75%;
+    width: 69%;
     background-color: #fff;
     display: block;
     padding: 0 24px 86px 24px;
@@ -371,7 +376,7 @@ body {
     height: 1.5em;
     width: 1.5em;
 }
-.divTab {
+.bluebutton {
     width: 200px;
     border: 1px solid blue;
     margin-right: 10px;
@@ -384,4 +389,6 @@ body {
 }
 .margin-left25{
     margin-left:25px;
-}
+}.margin10{
+     margin:10px;
+ }

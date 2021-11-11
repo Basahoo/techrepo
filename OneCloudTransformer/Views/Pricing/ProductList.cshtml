@@ -1,6 +1,6 @@
 ﻿<div class="text-center">
-    <h1 class="display-4"> Pricing calculator</h1>
-    <p class="text-heading3">Configure and estimate the costs for Azure products</p>
+    @*<h1 class="display-4"> Pricing calculator</h1>*@
+    <p class="text-heading3">Configure and estimate the costs for Azure / AWS products</p>
 </div>
 
 <script src="~/lib/jquery/dist/jquery.js"></script>
@@ -9,6 +9,11 @@
 
 <script type="text/javascript">
     jQuery(document).ready(function () {
+
+
+        // SetBackColor for TopMenu
+        $(".divCloudEconomics").addClass("selectedTopMenu");
+        $(".divCloudEconomics span a").addClass("selectedTopMenu");
 
         function hideDivTab() {
             $(".divTab").hide();
@@ -33,6 +38,7 @@
                         calucalteTotalCost();
                         registerTabEvents();
                         ActiveSelectedTab(source);
+                        createEstimateSummary();
                     }
                 },
                 error: function (xhr, status, error) {
@@ -240,6 +246,7 @@
             }
         }
 
+ 
         function registerspinbuttonEvent(source) {
             $(".spinbutton").change(function (e) {
                 var selectedVal = $(this).val();
@@ -250,11 +257,39 @@
                 $(this).closest(".pricediv").find("span.totalpriceVal").html(totalPrice);
 
                 calucalteTotalCost();
+                createEstimateSummary();
             });
         }
+
+        function createEstimateSummary() {
+            // Clean the Summary tag
+            $(".estimateSummary").html('');
+
+            // Check All selected quantity. 
+            //If any quantity > 0, Get the Product Name, Quantity, Total cose.
+            // Add into Arrray to display in the Summary
+
+            $(".spinbutton").each(function (e) {
+                var instanceCount = $(this).val();
+                if (instanceCount > 0) {
+                    var tp = $(this).closest(".pricediv").find("span.totalpriceVal").html();
+                    var productName = $(this).closest(".divProductItems").find("div.imageDescription").html();
+
+                    var summaryItemText = '<b>' + instanceCount + '</b> Instance of   <b>' + productName + '</b>  <b>$ ' + tp + '</b>';
+                    var summaryHtml = ' <div class="estimateSummaryItem"> ' +
+                        '  <span class=" productdetails" style = "font-size:18px;" > ' + summaryItemText + '</span > ' +
+                        ' </div>';
+                    $(this).closest(".divpagemaincontent ").find("div.estimateSummary").append(summaryHtml);
+                }
+            });
+
+        }
+
         calucalteTotalCost();
         hideDivTab();
         hideAllProductDataDiv();
+
+        createEstimateSummary();
 
         // No Default ProductList
         //LoadProductList();
@@ -266,7 +301,7 @@
     });
 </script>
 
-<div class=" divSelectSource inline-flex " style="margin-left:25%; border:1px solid blue; padding:20px; margin-bottom:20px;" >
+<div class=" divSelectSource inline-flex " style="margin-left:31%; border:1px solid blue; padding:20px; margin-bottom:20px;" >
     <div class="font-weight-bold"> Select resource container </div>
     <div class="">
             <input type="checkbox" class="azureChkbox resourceCheckBox marginleft-50" name="sourceCheckbx" value="Azure" /> <span class="margin-left20">Azure</span>
@@ -275,8 +310,8 @@
 </div>
 <br />
 <div class="divTabContainer inline-flex margin-left25">
-    <input type="button" id="btnAzureTab" class="divTab btnAzureTab" value="Azure" />
-    <input type="button" id="btnawsTab" class="divTab btnawsTab" value="AWS" />
+    <input type="button" id="btnAzureTab" class="divTab btnAzureTab bluebutton" value="Azure" />
+    <input type="button" id="btnawsTab" class="divTab btnawsTab bluebutton" value="AWS" />
 </div>
 
 <div class="divpagemaincontent inline-flex azureProductList">
@@ -302,8 +337,17 @@
             <div class="projectdivsection">
                 <div class="row-header">Estimate</div>
                 <span class="spaninfo"> Total estimation as per selected products</span>
-                <div class="newsectionmessage"></div>
-                <span class="costInfo">Total: </span><span class="priceText margin-left20 text-black-50">$</span><span class="totalcostAzure priceText margin-right20 text-black-50 font-weight-bold">152.57</span>
+                <div class="estimateSummary margin10">
+                    <div class="estimateSummaryItem">
+                        <span class="priceText margin-left20 text-black-50" style="font-size:18px;">1 Instance of Virtual Machine Total Cost: $ 152.57</span>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <span class="costInfo">Total: </span><span class="priceText margin-left20 text-black-50">$</span><span class="totalcostAzure priceText margin-right20 text-black-50 font-weight-bold">152.57</span>
+                </div>
+            </div>
+            <div class="text-right">
+                <input type="button" id="btnaddWorkItemIT" class="bluebutton addWorkItemIT" value="Create WorkItems" />
             </div>
         </div>
 </div>
@@ -330,8 +374,18 @@
         <div class="projectdivsection">
             <div class="row-header">Estimate</div>
             <span class="spaninfo"> Total estimation as per selected products</span>
-            <div class="newsectionmessage"></div>
-            <span class="costInfo">Total: </span><span class="priceText margin-left20 text-black-50">$</span><span class="totalcostAWS priceText margin-right20 text-black-50 font-weight-bold">152.57</span>
+            <div class="estimateSummary margin10">
+                <div class="estimateSummaryItem">
+                    <span class="priceText margin-left20 text-black-50" style="font-size:18px;">1 Instance of Virtual Machine Total Cost: $ 152.57</span>
+                </div>
+            </div>
+            <div class="text-center">
+                <span class="costInfo">Total: </span><span class="priceText margin-left20 text-black-50">$</span><span class="totalcostAWS priceText margin-right20 text-black-50 font-weight-bold">152.57</span>
+            </div>
+
+        </div>
+        <div class="text-right">
+            <input type="button" id="btnaddWorkItemIT" class="bluebutton addWorkItemIT" value="Create WorkItems" />
         </div>
     </div>
 </div>

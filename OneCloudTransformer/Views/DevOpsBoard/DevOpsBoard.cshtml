@@ -4,7 +4,7 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome to Azure DevOps DashBoard</h1>
+    @*<h1 class="display-4">Welcome to Azure DevOps DashBoard</h1>*@
 </div>
 
 <script src="~/lib/jquery/dist/jquery.js"></script>
@@ -13,6 +13,10 @@
 
 <script type="text/javascript">
     jQuery(document).ready(function () {
+
+        // SetBackColor for TopMenu
+        $(".divAzureDevOps").addClass("selectedTopMenu");
+        $(".divAzureDevOps span a").addClass("selectedTopMenu");
 
         $("#divProjectList").hide();
         $(".process").hide();
@@ -178,6 +182,7 @@
                     $(".divresult").show();
                     $("#divExistingProjectList").hide();
                     $(".divprojectcreationoptionmain").hide();
+                    $(".divAddWorkItems").hide();
                     $(".newsectionmessage").append('New Project ' + projectName + '   Created Successfully....<br> Project Link:-  ' + result);
                     $(".newsectionmessage").append("<br>Pipeline also created for the project " + projectName);
                 },
