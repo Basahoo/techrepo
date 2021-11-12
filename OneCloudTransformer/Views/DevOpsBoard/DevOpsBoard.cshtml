@@ -14,6 +14,7 @@
 <script type="text/javascript">
     jQuery(document).ready(function () {
 
+        $(".loadingdiv").hide();
         // SetBackColor for TopMenu
         $(".divAzureDevOps").addClass("selectedTopMenu");
         $(".divAzureDevOps span a").addClass("selectedTopMenu");
@@ -23,7 +24,7 @@
 
             // Hide Login
             $(".connect").hide();
-            $(".loadingdiv").show();
+           // $(".loadingdiv").show();
             // Load ProductList
             ProjectList();
         }
@@ -31,7 +32,10 @@
             $(".connect").show();
         }
 
-        $(".loadingdiv").hide();
+        //Hide Cloud Economy Button
+        $(".divGotoCloudEconomy").hide();
+
+       
         $("#divProjectList").hide();
         $(".process").hide();
         $(".divoption").hide();
@@ -124,6 +128,7 @@
                         // Display the Project List in Table
                         $("#divExistingProjectList").show();
                         $('#tblexistingProjects').html('');
+                        $("#btnprocess").val('Add Pipeline');
 
                         $(".divprojectcreationoptionmain").show();
 
@@ -157,6 +162,9 @@
                         registerbuttonEvent();
                         //checkprojectoption();
                         checkProcessButton();
+
+                        //Clear project selection
+                        sessionStorage.setItem('currentSelectedProject', '');
                     }
                     // $(".divstatus").append('<br> Project List received !');
                 },
@@ -239,6 +247,8 @@
                 $("#txtnewProject").val('');
                 $(".divAddWorkItems").hide();
                // $(".divSectionExistingWorkItems").show();
+                // Change the button Caption to Add Pipeline
+                $("#btnprocess").val('Add Pipeline');
             }
             if (optionval == "1") {
                 // Show Create New Project Seaction
@@ -250,6 +260,9 @@
                 $(".divAddWorkItems").show();
                 addDefaultWorkItems();
                 $(".divSectionExistingWorkItems").hide();
+
+                // Change the button Caption to Process
+                $("#btnprocess").val('Process');
             }
         }
 
@@ -265,15 +278,21 @@
                 $("#txtnewProject").val($(this).attr("data"));
                 // Get WorkItem details as per Project Name
                 var projectName = $(this).closest('td').next('td').text().trim();
+                
                 GetWorkItemList(projectName);
                 
                 checkProcessButton();
 
-                // Add row highighted on Select
-                // Remove selected hightlight from all rows
+                // Add row highlighted on Select
+                // Remove selected highlighted from all rows
                 // Add selected hightlight for self
                 $(".btnselectproject").closest("tr").removeClass('selectedTopMenu');
                 $(this).closest("tr").addClass('selectedTopMenu');
+
+                //Show WorkItem
+                $(".divGotoCloudEconomy").show();
+
+                sessionStorage.setItem('currentSelectedProject', projectName);
 
             });
         }
@@ -473,9 +492,6 @@
                             </select>
                         </div>
                     </div>
-                    @*<div class="divProcess">
-                    <input type="button" id="btnprocess" class="process  disablebutton" value="Process" />
-                </div>*@
                 </div>
             </div>
 
@@ -514,9 +530,15 @@
                 <span class="spaninfo"> Work Items list for the project</span>
                 <table id="tblexistingWorkItems"></table>
             </div>
-
-            <div class="divProcess">
-                <input type="button" id="btnprocess" class="process  disablebutton" value="Process" />
+            <div class="inline-flex text-right" style="margin-left: 60%;">
+                <div class="divGotoCloudEconomy gotoCloudEconomy" title="Go to Cloud Economics">
+                    <span class="spanTopMenu">
+                        <a asp-area="" asp-controller="Pricing" asp-action="ProductList">Cloud Economics </a>
+                    </span>
+                </div>
+                <div class="divProcess">
+                    <input type="button" id="btnprocess" class="process  disablebutton" value="Process" />
+                </div>
             </div>
             <div class="projectcreationmessage"></div>
         </div>

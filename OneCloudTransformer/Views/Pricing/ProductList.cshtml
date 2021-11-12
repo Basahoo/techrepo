@@ -15,16 +15,21 @@
         $(".divCloudEconomics").addClass("selectedTopMenu");
         $(".divCloudEconomics span a").addClass("selectedTopMenu");
 
+        // Get Selected Project from DevOps
+        var currentSelectedProject = sessionStorage.getItem('currentSelectedProject');
+        $(".projectName").text(currentSelectedProject);
+
         function hideDivTab() {
             $(".divTab").hide();
         }
 
-        var allProducts;
         function LoadProductList(source) {
             var org = $("#txtOrg").val();
             var pat = $("#txtpat").val();
 
-            var url = "https://localhost:44362/api/v1/GetProductList";
+            // Load Products as per selected checkbox
+
+            var url = "https://localhost:44362/api/v1/GetProductList?source="+source;
             jQuery.ajax({
                 url: url,
                 type: "get",
@@ -32,8 +37,6 @@
                 success: function (result, status, xhr) {
 
                     if (result.length > 0) {
-                        allProducts = result;
-                        
                         fillProductList(result, source);
                         calucalteTotalCost();
                         registerTabEvents();
@@ -338,11 +341,13 @@
     });
 </script>
 
+<span class="projectName"></span>
+
 <div class=" divSelectSource inline-flex " style="margin-left:31%; border:1px solid blue; padding:20px; margin-bottom:20px;" >
     <div class="font-weight-bold"> Select resource container </div>
     <div class="">
-            <input type="checkbox" class="azureChkbox resourceCheckBox marginleft-50" name="sourceCheckbx" value="Azure" /> <span class="margin-left20">Azure</span>
-            <input type="checkbox" class=" awsChkbox resourceCheckBox marginleft-50" name="sourceCheckbx" value="AWS" /> <span class="margin-left20">AWS </span>
+            <input type="checkbox" class="azureChkbox resourceCheckBox marginleft-50" name="sourceCheckbx" value="Azure" /> <span class="margin-left20 font22">Azure</span>
+            <input type="checkbox" class=" awsChkbox resourceCheckBox marginleft-50" name="sourceCheckbx" value="AWS" /> <span class="margin-left20 font22">AWS </span>
     </div>
 </div>
 <br />

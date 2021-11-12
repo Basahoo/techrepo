@@ -30,6 +30,8 @@ namespace OneCloudTransformer
         public const string Task2 = "Create Economics for the Project";
         public const string Task3 = "Develop application as per Project ";
         public const string Task4 = "Create CI /CD for the Application";
+        public const string AZURESOURCE = "Azure";
+        public const string AWSSOURCE = "AWS";
 
         #region Constructor
 
@@ -264,13 +266,19 @@ namespace OneCloudTransformer
 
         [HttpGet]
         [Route("api/v1/GetProductList")]
-        public List<AzureProduct> GetProjectList()
+        public List<AzureProduct> GetProjectList(string source)
         {
             List<AzureProduct> productLit = new List<AzureProduct>();
+            string fullapath = string.Empty;
+            if (source == AZURESOURCE) {
+                fullapath = @"\wwwroot\JSONData\Azureproducts.json";
+            }
+            if (source == AWSSOURCE)
+            {
+                fullapath = @"\wwwroot\JSONData\AWSProducts.json";
+            }
 
             // Read From JSON File/ 
-
-            string fullapath = @"\wwwroot\JSONData\Azureproducts.json";
             var jsonResult = System.IO.File.ReadAllText(Directory.GetCurrentDirectory() + fullapath);
 
             // Deserialize the Response JSON data to ProjectList.

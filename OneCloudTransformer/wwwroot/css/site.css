@@ -185,6 +185,9 @@ body {
 #btnprocess {
     width: 200px;
     height: 50px;
+    font-size: 22px;
+    padding-bottom: 13px;
+    font-weight: normal;
 }
 
 .divProjectName {
@@ -398,3 +401,24 @@ body {
      margin:10px;
  }
 
+.gotoCloudEconomy {
+    width: 200px;
+    border: 1px solid blue;
+    margin-right: 10px;
+    height: 50px;
+    text-align: center;
+    font-size: 22px;
+    background-color: rgba(0,120,212,1);
+    color: white;
+    cursor: pointer;
+    background-color: none;
+    margin-top: 5px;
+}
+.gotoCloudEconomy span a{
+    color:white;
+}
+
+.font22
+{
+    font-size:22px;
+}
